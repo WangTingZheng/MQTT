@@ -1,6 +1,6 @@
 ## MQTT
 ### Add device information
-In your project root path, add a `*.properties` file, fill with your device information
+In your project root path, add a `device.properties` file, fill with your device information(configure in aliyun)
 
 ```properties
 productKey =
