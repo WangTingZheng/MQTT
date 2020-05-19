@@ -1,5 +1,5 @@
-## MQTT
-### Add device information
+# MQTT
+## Add device information
 In your project root path, add a `device.properties` file, fill with your device information(configure in aliyun)
 
 ```properties
@@ -10,18 +10,19 @@ deviceSecret =
 accessKey =
 accessSecret =
 ```
-### Add MQTT to your project
+## Add MQTT to your project
 - read instruction [here](https://github.com/WangTingZheng/MQTT/packages/233895)
 - read gradle [here](https://help.github.com/articles/configuring-gradle-for-use-with-github-package-registry/)
 
-### Send some information
-#### get device
+## Send some information
+### Get device information
 
 ```java
 GetDevice getDevice = new GetDevice("device.properties");
 ```
-#### New a Listener
+### New a Listener
 
+#### New a listener object
 ```java
 Listener listener = new Listener(getDevice.getProductKey(), getDevice.getDeviceName(), getDevice.getDeviceSecret(), new DealServer() {
             @Override
@@ -34,10 +35,10 @@ Listener listener = new Listener(getDevice.getProductKey(), getDevice.getDeviceN
             }
         });
 ```
-#### Set accessable
+#### Set accessible
 
 ```java
-listener.setAccessable(getDevice.getAccessKey(),getDevice.getAccessSecret());
+listener.setAccessible(getDevice.getAccessKey(),getDevice.getAccessSecret());
 ```
 
 #### start to listen
@@ -48,11 +49,11 @@ listener.start();
 
 ### New a Sender
 
-New a Sender object
+#### New a Sender object
 ```java
 Sender sender = new Sender();
 ```
-send to certain listener
+#### Send to certain listener
 
 ```java
 sender.send(listener, "hello", new DealClient() {

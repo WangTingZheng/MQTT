@@ -27,7 +27,7 @@ public class App {
                 return null;
             }
         });
-        listener.setAccessable(getDevice.getAccessKey(),getDevice.getAccessSecret());
+        listener.setAccessible(getDevice.getAccessKey(),getDevice.getAccessSecret());
         listener.start();
 
         Sender sender = new Sender();

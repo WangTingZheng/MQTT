@@ -28,7 +28,7 @@ public class Listener {
         server.start();
     }
 
-    public void setAccessable(String accessKey, String accessSecret)
+    public void setAccessible(String accessKey, String accessSecret)
     {
         this.accessKey = accessKey;
         this.accessSecret = accessSecret;
