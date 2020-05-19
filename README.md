@@ -65,6 +65,6 @@ sender.send(listener, "hello", new DealClient() {
             }
         });
 ```
-If everything going normally, your will see `done! I got yes` in System.out console.
+If everything goes normally, your will see `done! I got yes` in System.out console.
 
-**Full code can be viewed in [here](https://github.com/WangTingZheng/MQTT/blob/master/src/main/java/com/wangtingzheng/mqtt/App.java)**
+**Full code can be viewed [here](https://github.com/WangTingZheng/MQTT/blob/master/src/main/java/com/wangtingzheng/mqtt/App.java)**
