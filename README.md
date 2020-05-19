@@ -60,10 +60,11 @@ sender.send(listener, "hello", new DealClient() {
             public void deal_send_back(String send_back) {
                 if ("yes".equals(send_back))
                 {
-                    System.out.println("done! I got" + send_back);
+                    System.out.println("done! I got " + send_back);
                 }
             }
         });
 ```
+If everything going normally, your will see `done! I got yes` in System.out console.
 
 **Full code can be viewed in [here](https://github.com/WangTingZheng/MQTT/blob/master/src/main/java/com/wangtingzheng/mqtt/App.java)**

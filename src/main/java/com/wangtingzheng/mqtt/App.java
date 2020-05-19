@@ -36,7 +36,7 @@ public class App {
             public void deal_send_back(String send_back) {
                 if ("yes".equals(send_back))
                 {
-                    System.out.println("done! I got" + send_back);
+                    System.out.println("done! I got " + send_back);
                 }
             }
         });
