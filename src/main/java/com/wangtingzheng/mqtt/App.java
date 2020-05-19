@@ -17,7 +17,6 @@ import java.io.*;
 public class App {
     public static void main(String[] args) throws IOException, ClientException, InterruptedException {
         GetDevice getDevice = new GetDevice("device.properties");
-        Sender sender = new Sender();
         Listener listener = new Listener(getDevice.getProductKey(), getDevice.getDeviceName(), getDevice.getDeviceSecret(), new DealServer() {
             @Override
             public String deal_send_back(String msg) {
@@ -31,6 +30,7 @@ public class App {
         listener.setAccessable(getDevice.getAccessKey(),getDevice.getAccessSecret());
         listener.start();
 
+        Sender sender = new Sender();
         sender.send(listener, "hello", new DealClient() {
             @Override
             public void deal_send_back(String send_back) {
