@@ -10,8 +10,7 @@ import com.wangtingzheng.mqtt.entity.Server;
  * @features
  */
 public class Listener {
-    private String accessKey;
-    private String accessSecret;
+
 
     private String productKey;
     private String deviceName;
@@ -28,19 +27,6 @@ public class Listener {
         server.start();
     }
 
-    public void setAccessible(String accessKey, String accessSecret)
-    {
-        this.accessKey = accessKey;
-        this.accessSecret = accessSecret;
-    }
-
-    public String getAccessKey() {
-        return accessKey;
-    }
-
-    public String getAccessSecret() {
-        return accessSecret;
-    }
 
     public String getProductKey() {
         return productKey;

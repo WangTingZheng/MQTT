@@ -5,6 +5,7 @@ import com.wangtingzheng.mqtt.api.Listener;
 import com.wangtingzheng.mqtt.api.Sender;
 import com.wangtingzheng.mqtt.deal.DealClient;
 import com.wangtingzheng.mqtt.deal.DealServer;
+import com.wangtingzheng.mqtt.device.Access;
 import com.wangtingzheng.mqtt.device.GetDevice;
 
 import java.io.*;
@@ -17,6 +18,8 @@ import java.io.*;
 public class App {
     public static void main(String[] args) throws IOException, ClientException, InterruptedException {
         GetDevice getDevice = new GetDevice("device.properties");
+        Access access = new Access(getDevice.getAccessKey(),getDevice.getAccessSecret());
+
         Listener listener = new Listener(getDevice.getProductKey(), getDevice.getDeviceName(), getDevice.getDeviceSecret(), new DealServer() {
             @Override
             public String deal_send_back(String msg) {
@@ -27,11 +30,10 @@ public class App {
                 return null;
             }
         });
-        listener.setAccessible(getDevice.getAccessKey(),getDevice.getAccessSecret());
         listener.start();
 
         Sender sender = new Sender();
-        sender.send(listener, "hello", new DealClient() {
+        sender.send(listener, access,"hello", new DealClient() {
             @Override
             public void deal_send_back(String send_back) {
                 if ("yes".equals(send_back))

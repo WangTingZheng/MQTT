@@ -6,7 +6,7 @@
 
     <groupId>com.wangtingzheng</groupId>
     <artifactId>MQTT</artifactId>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
 
     <build>
         <plugins>
@@ -71,7 +71,6 @@
             <artifactId>commons-codec</artifactId>
             <version>1.8</version>
         </dependency>
-
     </dependencies>
 
     

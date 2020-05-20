@@ -20,6 +20,11 @@ accessSecret =
 ```java
 GetDevice getDevice = new GetDevice("device.properties");
 ```
+### New a access
+new a access object to listener objec with aliyun access key and secret.
+```java
+Access access = new Access(getDevice.getAccessKey(),getDevice.getAccessSecret());
+```
 ### New a Listener
 
 #### New a listener object
@@ -34,11 +39,6 @@ Listener listener = new Listener(getDevice.getProductKey(), getDevice.getDeviceN
                 return null;
             }
         });
-```
-#### Set accessible
-
-```java
-listener.setAccessible(getDevice.getAccessKey(),getDevice.getAccessSecret());
 ```
 
 #### start to listen
@@ -56,7 +56,7 @@ Sender sender = new Sender();
 #### Send to certain listener
 
 ```java
-sender.send(listener, "hello", new DealClient() {
+sender.send(listener, access,"hello", new DealClient() {
             @Override
             public void deal_send_back(String send_back) {
                 if ("yes".equals(send_back))

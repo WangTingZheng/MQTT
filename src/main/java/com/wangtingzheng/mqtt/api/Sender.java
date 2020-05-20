@@ -2,6 +2,7 @@ package com.wangtingzheng.mqtt.api;
 
 import com.aliyuncs.exceptions.ClientException;
 import com.wangtingzheng.mqtt.deal.DealClient;
+import com.wangtingzheng.mqtt.device.Access;
 import com.wangtingzheng.mqtt.entity.Client;
 
 
@@ -16,8 +17,8 @@ import java.rmi.ServerException;
 public class Sender {
     private Client client;
 
-    public void send(Listener listener, String msg, DealClient dealClient) throws ServerException, ClientException, UnsupportedEncodingException {
-        client = new Client(listener.getAccessKey(),listener.getAccessSecret(),listener.getProductKey(),listener.getDeviceName(), dealClient);
+    public void send(Listener listener, Access access, String msg, DealClient dealClient) throws ServerException, ClientException, UnsupportedEncodingException {
+        client = new Client(access.getAccessKey(),access.getAccessSecret(),listener.getProductKey(),listener.getDeviceName(), dealClient);
         client.Mqtt(msg);
     }
 }
