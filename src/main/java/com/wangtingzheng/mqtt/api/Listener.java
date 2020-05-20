@@ -10,8 +10,6 @@ import com.wangtingzheng.mqtt.entity.Server;
  * @features
  */
 public class Listener {
-
-
     private String productKey;
     private String deviceName;
 

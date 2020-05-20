@@ -1,12 +1,10 @@
 package com.wangtingzheng.mqtt;
 
-import com.aliyuncs.exceptions.ClientException;
 import com.wangtingzheng.mqtt.api.Listener;
 import com.wangtingzheng.mqtt.api.Sender;
-import com.wangtingzheng.mqtt.deal.DealClient;
-import com.wangtingzheng.mqtt.deal.DealServer;
 import com.wangtingzheng.mqtt.device.Access;
 import com.wangtingzheng.mqtt.device.GetDevice;
+import com.wangtingzheng.mqtt.type.Type;
 
 import java.io.*;
 
@@ -16,30 +14,24 @@ import java.io.*;
  * @features
  */
 public class App {
-    public static void main(String[] args) throws IOException, ClientException, InterruptedException {
+    public static void main(String[] args) throws IOException, InterruptedException {
         GetDevice getDevice = new GetDevice("device.properties");
         Access access = new Access(getDevice.getAccessKey(),getDevice.getAccessSecret());
 
-        Listener listener = new Listener(getDevice.getProductKey(), getDevice.getDeviceName(), getDevice.getDeviceSecret(), new DealServer() {
-            @Override
-            public String deal_send_back(String msg) {
-                if ("hello".equals(msg))
-                {
-                    return "yes";
-                }
-                return null;
+        Listener listener = new Listener(getDevice.getProductKey(), getDevice.getDeviceName(), getDevice.getDeviceSecret(), msg -> {
+            if ("hello".equals(Type.getData(msg)))
+            {
+                return "yes";
             }
+            return null;
         });
         listener.start();
 
         Sender sender = new Sender();
-        sender.send(listener, access,"hello", new DealClient() {
-            @Override
-            public void deal_send_back(String send_back) {
-                if ("yes".equals(send_back))
-                {
-                    System.out.println("done! I got " + send_back);
-                }
+        sender.send_message(listener, access,"hello", send_back -> {
+            if ("yes".equals(send_back))
+            {
+                System.out.println("done! I got " + send_back);
             }
         });
     }

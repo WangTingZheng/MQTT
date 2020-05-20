@@ -15,7 +15,6 @@ import org.apache.commons.codec.binary.Base64;
 
 
 import java.io.UnsupportedEncodingException;
-import java.rmi.ServerException;
 
 public class Client {
     private String accessKey;
@@ -33,7 +32,7 @@ public class Client {
     }
 
 
-    public void Mqtt(String payload) throws ServerException, ClientException, UnsupportedEncodingException {
+    public void Mqtt(String payload) throws ClientException, UnsupportedEncodingException {
         RRpcRequest request = new RRpcRequest();
         request.setProductKey(productKey);
         request.setDeviceName(deviceName);
@@ -41,7 +40,7 @@ public class Client {
         request.setTimeout(6000);
         DefaultAcsClient client = OpenApiClient.getClient(accessKey, accessSecret);
 
-        RRpcResponse response = (RRpcResponse) client.getAcsResponse(request);
+        RRpcResponse response =  client.getAcsResponse(request);
         if (response != null && "SUCCESS".equals(response.getRrpcCode())) {
             String send_back = new String(Base64.decodeBase64(response.getPayloadBase64Byte()), "UTF-8");
             dealClient.deal_send_back(send_back);

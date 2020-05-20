@@ -16,7 +16,6 @@ import com.aliyun.alink.linksdk.cmp.core.listener.IConnectSubscribeListener;
 import com.aliyun.alink.linksdk.cmp.core.listener.IConnectUnscribeListener;
 
 public class Device {
-
     /**
      * 建立连接
      *
@@ -139,5 +138,4 @@ public class Device {
         // 反初始化
         LinkKit.getInstance().deinit();
     }
-
 }

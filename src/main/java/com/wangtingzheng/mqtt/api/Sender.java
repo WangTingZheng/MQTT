@@ -4,10 +4,9 @@ import com.aliyuncs.exceptions.ClientException;
 import com.wangtingzheng.mqtt.deal.DealClient;
 import com.wangtingzheng.mqtt.device.Access;
 import com.wangtingzheng.mqtt.entity.Client;
-
+import com.wangtingzheng.mqtt.type.Type;
 
 import java.io.UnsupportedEncodingException;
-import java.rmi.ServerException;
 
 /**
  * @author WangTingZheng
@@ -17,8 +16,20 @@ import java.rmi.ServerException;
 public class Sender {
     private Client client;
 
-    public void send(Listener listener, Access access, String msg, DealClient dealClient) throws ServerException, ClientException, UnsupportedEncodingException {
+    public void send(Listener listener, Access access, String msg, DealClient dealClient) {
         client = new Client(access.getAccessKey(),access.getAccessSecret(),listener.getProductKey(),listener.getDeviceName(), dealClient);
-        client.Mqtt(msg);
+        try {
+            client.Mqtt(msg);
+        } catch (ClientException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void send_command(Listener listener, Access access, String msg, DealClient dealClient)  {
+        send(listener, access, Type.toCommand(msg), dealClient);
+    }
+
+    public void send_message(Listener listener, Access access, String msg, DealClient dealClient) {
+        send(listener, access, Type.toMessage(msg), dealClient);
     }
 }

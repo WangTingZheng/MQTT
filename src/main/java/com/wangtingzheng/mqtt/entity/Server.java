@@ -53,7 +53,8 @@ public class Server {
                     String replay;
                     replay = getDealServer().deal_send_back(payload);
                     String response = topic.replace("/request/", "/response/");
-                    Device.publish(response, replay);
+                    if (replay != null)
+                        Device.publish(response, replay);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
