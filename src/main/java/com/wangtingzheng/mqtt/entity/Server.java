@@ -15,7 +15,7 @@ public class Server {
     private String productKey;
     private String deviceName;
     private String deviceSecret;
-    private String rrpcTopic = "/sys/" + productKey + "/" + deviceName + "/rrpc/request/+";
+    private String rrpcTopic;
     private DealServer dealServer;
 
     public Server(String productKey, String deviceName, String deviceSecret, DealServer dealServer) {
@@ -23,6 +23,7 @@ public class Server {
         this.deviceName = deviceName;
         this.deviceSecret = deviceSecret;
         this.dealServer = dealServer;
+        rrpcTopic = "/sys/" + productKey + "/" + deviceName + "/rrpc/request/+";
     }
 
     public DealServer getDealServer() {
