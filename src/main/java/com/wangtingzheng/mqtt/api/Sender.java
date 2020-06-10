@@ -4,6 +4,7 @@ import com.aliyuncs.exceptions.ClientException;
 import com.wangtingzheng.mqtt.deal.DealClient;
 import com.wangtingzheng.mqtt.device.Access;
 import com.wangtingzheng.mqtt.entity.Client;
+import com.wangtingzheng.mqtt.entity.ListenerDevice;
 import com.wangtingzheng.mqtt.type.Type;
 
 import java.io.UnsupportedEncodingException;
@@ -16,7 +17,7 @@ import java.io.UnsupportedEncodingException;
 public class Sender {
     private Client client;
 
-    public void send(Listener listener, Access access, String msg, DealClient dealClient) {
+    public void send(ListenerDevice listener, Access access, String msg, DealClient dealClient) {
         client = new Client(access.getAccessKey(),access.getAccessSecret(),listener.getProductKey(),listener.getDeviceName(), dealClient);
         try {
             client.Mqtt(msg);
@@ -25,11 +26,12 @@ public class Sender {
         }
     }
 
-    public void send_command(Listener listener, Access access, String msg, DealClient dealClient)  {
+    public void send_command(ListenerDevice listener, Access access, String msg, DealClient dealClient)  {
         send(listener, access, Type.toCommand(msg), dealClient);
     }
 
-    public void send_message(Listener listener, Access access, String msg, DealClient dealClient) {
+    public void send_message(ListenerDevice listener, Access access, String msg, DealClient dealClient) {
         send(listener, access, Type.toMessage(msg), dealClient);
     }
+
 }

@@ -15,24 +15,22 @@ import java.io.*;
  */
 public class App {
     public static void main(String[] args) throws IOException, InterruptedException {
-        GetDevice getDevice = new GetDevice("device.properties");
+        GetDevice getDevice = new GetDevice("BMP.properties");
         Access access = new Access(getDevice.getAccessKey(),getDevice.getAccessSecret());
 
         Listener listener = new Listener(getDevice.getProductKey(), getDevice.getDeviceName(), getDevice.getDeviceSecret(), msg -> {
-            if ("hello".equals(Type.getData(msg)))
-            {
-                return "yes";
-            }
-            return null;
+            System.out.println("msg"+msg);
+            return "ok";
         });
         listener.start();
 
+        /*
         Sender sender = new Sender();
-        sender.send_message(listener, access,"hello", send_back -> {
+        sender.send_message(listener.toListenerDevice(), access,"hello", send_back -> {
             if ("yes".equals(send_back))
             {
                 System.out.println("done! I got " + send_back);
             }
-        });
+        });*/
     }
 }

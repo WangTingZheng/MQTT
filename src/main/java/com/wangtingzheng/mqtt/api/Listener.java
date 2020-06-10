@@ -1,6 +1,7 @@
 package com.wangtingzheng.mqtt.api;
 
 import com.wangtingzheng.mqtt.deal.DealServer;
+import com.wangtingzheng.mqtt.entity.ListenerDevice;
 import com.wangtingzheng.mqtt.entity.Server;
 
 
@@ -32,5 +33,9 @@ public class Listener {
 
     public String getDeviceName() {
         return deviceName;
+    }
+
+    public ListenerDevice toListenerDevice(){
+        return new ListenerDevice(this.productKey, this.deviceName);
     }
 }
