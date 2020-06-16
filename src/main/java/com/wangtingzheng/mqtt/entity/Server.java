@@ -9,14 +9,17 @@ import com.wangtingzheng.mqtt.deal.DealServer;
 
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Server {
 
     private String productKey;
     private String deviceName;
     private String deviceSecret;
-    private String rrpcTopic;
-    private String harewareTopic;
+    private List<String> rrpcTopic = new ArrayList<>();
     private DealServer dealServer;
 
     public Server(String productKey, String deviceName, String deviceSecret, DealServer dealServer) {
@@ -24,7 +27,7 @@ public class Server {
         this.deviceName = deviceName;
         this.deviceSecret = deviceSecret;
         this.dealServer = dealServer;
-        rrpcTopic = "/sys/" + productKey + "/" + deviceName + "/rrpc/request/+";
+        rrpcTopic.add("/sys/" + productKey + "/" + deviceName + "/rrpc/request/+");
         //harewareTopic = "/"+productKey+"/"+deviceName+"/user/get";
     }
 
@@ -32,9 +35,18 @@ public class Server {
         this.productKey = productKey;
         this.deviceName = deviceName;
         this.deviceSecret = deviceSecret;
-        this.rrpcTopic = rrpcTopic;
+        this.rrpcTopic.add(rrpcTopic);
         this.dealServer = dealServer;
     }
+
+    public Server(String productKey, String deviceName, String deviceSecret, String[] rrpcTopic, DealServer dealServer) {
+        this.productKey = productKey;
+        this.deviceName = deviceName;
+        this.deviceSecret = deviceSecret;
+        Collections.addAll(this.rrpcTopic, rrpcTopic);
+        this.dealServer = dealServer;
+    }
+
 
     public DealServer getDealServer() {
         return dealServer;
@@ -43,33 +55,25 @@ public class Server {
     public void start() throws InterruptedException {
         registerNotifyListener();
         Device.connect(productKey, deviceName, deviceSecret);
-        Device.subscribe(rrpcTopic);
-        Device.subscribe(harewareTopic);
+        for (String topic : rrpcTopic)
+            Device.subscribe(topic);
     }
     public void registerNotifyListener() {
         LinkKit.getInstance().registerOnNotifyListener(new IConnectNotifyListener() {
             @Override
             public boolean shouldHandle(String connectId, String topic) {
                 // 只处理特定topic的消息
-                if (topic.contains("/rrpc/request/")) {
-                    return true;
-                } else {
-                    return false;
-                }
+                return topic.contains("/rrpc/request/");
             }
 
             @Override
             public void onNotify(String connectId, String topic, AMessage aMessage) {
-                try {
-                    String payload = new String((byte[]) aMessage.getData(), "UTF-8");
-                    String replay;
-                    replay = getDealServer().deal_send_back(payload);
-                    String response = topic.replace("/request/", "/response/");
-                    if (replay != null)
-                        Device.publish(response, replay);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                }
+                String payload = new String((byte[]) aMessage.getData(), StandardCharsets.UTF_8);
+                String replay;
+                replay = getDealServer().deal_send_back(payload);
+                String response = topic.replace("/request/", "/response/");
+                if (replay != null)
+                    Device.publish(response, replay);
             }
             @Override
             public void onConnectStateChange(String connectId, ConnectState connectState) {
