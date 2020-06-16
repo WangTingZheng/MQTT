@@ -12,8 +12,8 @@ import java.io.*;
  * @features
  */
 public class App {
-    public static void main(String[] args) throws IOException, InterruptedException {
-        GetDevice getDevice = new GetDevice("BMP.properties");
+    public static void main(String[] args) throws InterruptedException {
+        GetDevice getDevice = new GetDevice("device.properties");
         Access access = new Access(getDevice.getAccessKey(),getDevice.getAccessSecret());
 
         Listener listener = new Listener(getDevice.getProductKey(), getDevice.getDeviceName(), getDevice.getDeviceSecret(), msg -> {
