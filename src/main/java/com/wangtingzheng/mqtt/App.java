@@ -4,8 +4,6 @@ import com.wangtingzheng.mqtt.api.Listener;
 import com.wangtingzheng.mqtt.api.Sender;
 import com.wangtingzheng.mqtt.device.Access;
 import com.wangtingzheng.mqtt.device.GetDevice;
-import com.wangtingzheng.mqtt.type.Type;
-
 import java.io.*;
 
 /**
@@ -19,18 +17,17 @@ public class App {
         Access access = new Access(getDevice.getAccessKey(),getDevice.getAccessSecret());
 
         Listener listener = new Listener(getDevice.getProductKey(), getDevice.getDeviceName(), getDevice.getDeviceSecret(), msg -> {
-            System.out.println("msg"+msg);
+            System.out.println("msg "+msg);
             return "ok";
         });
         listener.start();
 
-        /*
-        Sender sender = new Sender();
-        sender.send_message(listener.toListenerDevice(), access,"hello", send_back -> {
-            if ("yes".equals(send_back))
-            {
+
+        Sender sender = new Sender(listener.toListenerDevice(),access,send_back -> {
+            if ("ok".equals(send_back)){
                 System.out.println("done! I got " + send_back);
             }
-        });*/
+        });
+        sender.send("hello");
     }
 }

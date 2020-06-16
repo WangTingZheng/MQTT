@@ -14,13 +14,14 @@ import com.wangtingzheng.mqtt.deal.DealClient;
 import org.apache.commons.codec.binary.Base64;
 
 
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 public class Client {
     private String accessKey;
     private String accessSecret;
     private String productKey;
     private String deviceName;
+    private String topic;
     private DealClient dealClient;
 
     public Client(String accessKey, String accessSecret, String productKey, String deviceName, DealClient dealClient) {
@@ -31,9 +32,19 @@ public class Client {
         this.dealClient = dealClient;
     }
 
+    public Client(String accessKey, String accessSecret, String productKey, String deviceName, String topic, DealClient dealClient) {
+        this.accessKey = accessKey;
+        this.accessSecret = accessSecret;
+        this.productKey = productKey;
+        this.deviceName = deviceName;
+        this.topic = topic;
+        this.dealClient = dealClient;
+    }
 
-    public void Mqtt(String payload) throws ClientException, UnsupportedEncodingException {
+    public void Mqtt(String payload) throws ClientException {
         RRpcRequest request = new RRpcRequest();
+        if (topic != null)
+            request.setTopic(topic);
         request.setProductKey(productKey);
         request.setDeviceName(deviceName);
         request.setRequestBase64Byte(Base64.encodeBase64String(payload.getBytes()));
@@ -42,7 +53,7 @@ public class Client {
 
         RRpcResponse response =  client.getAcsResponse(request);
         if (response != null && "SUCCESS".equals(response.getRrpcCode())) {
-            String send_back = new String(Base64.decodeBase64(response.getPayloadBase64Byte()), "UTF-8");
+            String send_back = new String(Base64.decodeBase64(response.getPayloadBase64Byte()), StandardCharsets.UTF_8);
             dealClient.deal_send_back(send_back);
         }
     }

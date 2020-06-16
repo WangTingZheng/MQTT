@@ -16,6 +16,7 @@ public class Server {
     private String deviceName;
     private String deviceSecret;
     private String rrpcTopic;
+    private String harewareTopic;
     private DealServer dealServer;
 
     public Server(String productKey, String deviceName, String deviceSecret, DealServer dealServer) {
@@ -24,6 +25,15 @@ public class Server {
         this.deviceSecret = deviceSecret;
         this.dealServer = dealServer;
         rrpcTopic = "/sys/" + productKey + "/" + deviceName + "/rrpc/request/+";
+        //harewareTopic = "/"+productKey+"/"+deviceName+"/user/get";
+    }
+
+    public Server(String productKey, String deviceName, String deviceSecret, String rrpcTopic, DealServer dealServer) {
+        this.productKey = productKey;
+        this.deviceName = deviceName;
+        this.deviceSecret = deviceSecret;
+        this.rrpcTopic = rrpcTopic;
+        this.dealServer = dealServer;
     }
 
     public DealServer getDealServer() {
@@ -34,6 +44,7 @@ public class Server {
         registerNotifyListener();
         Device.connect(productKey, deviceName, deviceSecret);
         Device.subscribe(rrpcTopic);
+        Device.subscribe(harewareTopic);
     }
     public void registerNotifyListener() {
         LinkKit.getInstance().registerOnNotifyListener(new IConnectNotifyListener() {

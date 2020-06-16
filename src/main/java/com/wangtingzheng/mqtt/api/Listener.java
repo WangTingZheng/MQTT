@@ -21,6 +21,12 @@ public class Listener {
         this.deviceName = deviceName;
         server = new Server(productKey,deviceName,deviceSecret, dealServer);
     }
+    public Listener(String productKey, String deviceName, String deviceSecret, String topic, DealServer dealServer) {
+        this.productKey = productKey;
+        this.deviceName = deviceName;
+        server = new Server(productKey,deviceName,deviceSecret, topic, dealServer);
+    }
+
 
     public void  start() throws InterruptedException {
         server.start();
