@@ -17,10 +17,14 @@ public class GetDevice {
     private  String accessSecret;
 
 
-    public GetDevice(String path) throws IOException {
+    public GetDevice(String path) {
         Properties properties = new Properties();
-        InputStream in = new BufferedInputStream(new FileInputStream(path));
-        properties.load(in);
+        try {
+            InputStream in = new BufferedInputStream(new FileInputStream(path));
+            properties.load(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         productKey = properties.getProperty("productKey");
         deviceName = properties.getProperty("deviceName");
         deviceSecret = properties.getProperty("deviceSecret");
