@@ -16,11 +16,11 @@ import java.util.List;
 
 public class Server {
 
-    private String productKey;
-    private String deviceName;
-    private String deviceSecret;
-    private List<String> rrpcTopic = new ArrayList<>();
-    private DealServer dealServer;
+    private String productKey; //产品key
+    private String deviceName; //设备名称
+    private String deviceSecret; //设备密钥
+    private List<String> rrpcTopic = new ArrayList<>();  //监视的topic的列表
+    private DealServer dealServer; //包含信息处理函数的类
 
     public Server(String productKey, String deviceName, String deviceSecret, DealServer dealServer) {
         this.productKey = productKey;
@@ -55,8 +55,9 @@ public class Server {
     public void start() throws InterruptedException {
         registerNotifyListener();
         Device.connect(productKey, deviceName, deviceSecret);
-        for (String topic : rrpcTopic)
+        for (String topic : rrpcTopic){
             Device.subscribe(topic);
+        }
     }
     public void registerNotifyListener() {
         LinkKit.getInstance().registerOnNotifyListener(new IConnectNotifyListener() {
@@ -68,6 +69,7 @@ public class Server {
 
             @Override
             public void onNotify(String connectId, String topic, AMessage aMessage) {
+                System.out.println("has data");
                 String payload = new String((byte[]) aMessage.getData(), StandardCharsets.UTF_8);
                 String replay;
                 replay = getDealServer().deal_send_back(payload);

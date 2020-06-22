@@ -1,4 +1,4 @@
-package com.wangtingzheng.mqtt.entity;
+package com.wangtingzheng.mqtt.device;
 
 /**
  * @author WangTingZheng

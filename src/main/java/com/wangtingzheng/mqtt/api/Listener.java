@@ -1,7 +1,8 @@
 package com.wangtingzheng.mqtt.api;
 
 import com.wangtingzheng.mqtt.deal.DealServer;
-import com.wangtingzheng.mqtt.entity.ListenerDevice;
+import com.wangtingzheng.mqtt.device.ListenerDevice;
+import com.wangtingzheng.mqtt.device.ListenerDeviceLogin;
 import com.wangtingzheng.mqtt.entity.Server;
 
 
@@ -16,6 +17,12 @@ public class Listener {
 
     private Server server;
 
+    public Listener(ListenerDeviceLogin listenerDeviceLogin, DealServer dealServer) {
+        this.productKey = listenerDeviceLogin.getProductKey();
+        this.deviceName = listenerDeviceLogin.getDeviceName();
+        server = new Server(productKey,deviceName,listenerDeviceLogin.getDeviceSecret(), dealServer);
+    }
+
     public Listener(String productKey, String deviceName, String deviceSecret, DealServer dealServer) {
         this.productKey = productKey;
         this.deviceName = deviceName;
@@ -27,6 +34,11 @@ public class Listener {
         server = new Server(productKey,deviceName,deviceSecret, topic, dealServer);
     }
 
+    public Listener(String productKey, String deviceName, String deviceSecret, String[] topic, DealServer dealServer) {
+        this.productKey = productKey;
+        this.deviceName = deviceName;
+        server = new Server(productKey,deviceName,deviceSecret, topic, dealServer);
+    }
 
 
 

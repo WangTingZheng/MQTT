@@ -52,4 +52,16 @@ public class GetDevice {
     public  String getAccessSecret() {
         return accessSecret;
     }
+
+    public ListenerDevice getListenerDevice(){
+        return new ListenerDevice(productKey,deviceName);
+    }
+
+    public ListenerDeviceLogin getListenerDeviceLogin(){
+        return new ListenerDeviceLogin(productKey,deviceName,deviceSecret);
+    }
+
+    public Access getAccess(){
+        return new Access(accessKey,accessSecret);
+    }
 }

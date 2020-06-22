@@ -42,9 +42,9 @@ public class Client {
     }
 
     public void Mqtt(String payload) throws ClientException {
-        RRpcRequest request = new RRpcRequest();
-        if (topic != null)
-            request.setTopic(topic);
+        RRpcRequest request = new RRpcRequest();  //新建阿里RRpc消息对象
+        if (topic != null) //如果有自定义的topic
+            request.setTopic(topic);  //
         request.setProductKey(productKey);
         request.setDeviceName(deviceName);
         request.setRequestBase64Byte(Base64.encodeBase64String(payload.getBytes()));
